@@ -1,0 +1,25 @@
+{
+    "name": "ddprojects/api",
+    "autoload": {
+        "psr-4": {
+            "Api\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ddurov",
+            "email": "admin@ddproj.ru"
+        }
+    ],
+    "require": {
+        "krugozor/database": ">=2.0",
+        "mobiledetect/mobiledetectlib": ">=2.8",
+        "phpmailer/phpmailer": ">=6",
+        "bramus/router": ">=1",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-mysqli": "*"
+	}
+}
