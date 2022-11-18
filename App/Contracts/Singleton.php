@@ -5,7 +5,7 @@ namespace Api\Contracts;
 interface Singleton
 {
     /**
-     * @return static
+     * @return mixed
      */
-    public static function getInstance();
+    public static function getInstance(): mixed;
 }

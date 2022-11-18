@@ -1,0 +1,25 @@
+{
+    "name": "ddprojects/api",
+    "autoload": {
+        "psr-4": {
+            "Api\\": "App/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ddurov",
+            "email": "admin@ddproj.ru"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ddurov/ddprojects-core",
+            "no-api": true
+        }
+    ],
+    "require": {
+        "ddprojects/core": "dev-master",
+        "rakit/validation": "v1.0.0"
+    }
+}

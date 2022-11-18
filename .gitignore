@@ -1,2 +1,4 @@
-/filesAPI/vendor/
-/.idea/
+vendor/
+.idea/
+composer.lock
+.dev.env
