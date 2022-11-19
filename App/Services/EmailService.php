@@ -14,8 +14,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class EmailService
 {
-    private EntityRepository $entityRepository;
     private EntityManager $entityManager;
+    private EntityRepository $entityRepository;
     private PHPMailer $mailer;
 
     public function __construct(EntityManager $entityManager, PHPMailer $mailer)

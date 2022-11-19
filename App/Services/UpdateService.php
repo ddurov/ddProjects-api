@@ -10,10 +10,12 @@ use UnexpectedValueException;
 
 class UpdateService
 {
+    private EntityManager $entityManager;
     private EntityRepository $entityRepository;
 
     public function __construct(EntityManager $entityManager)
     {
+        $this->entityManager = $entityManager;
         $this->entityRepository = $entityManager->getRepository(UpdateModel::class);
     }
 
