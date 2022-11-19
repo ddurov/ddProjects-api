@@ -6,6 +6,7 @@ use Api\Configs;
 use Api\Services\UpdateService;
 use Core\Controllers\Controller;
 use Core\DTO\Response;
+use Core\Exceptions\EntityNotFound;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\Exception\ORMException;
 use Rakit\Validation\Validator;
@@ -19,7 +20,7 @@ class UpdateController extends Controller
      * @return void
      * @throws Exception
      * @throws ORMException
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws \PHPMailer\PHPMailer\Exception|EntityNotFound
      */
     public function get(): void
     {
@@ -43,7 +44,7 @@ class UpdateController extends Controller
      * @throws Exception
      * @throws ORMException
      * @throws UnexpectedValueException
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws \PHPMailer\PHPMailer\Exception|EntityNotFound
      */
     public function getAll(): void
     {
