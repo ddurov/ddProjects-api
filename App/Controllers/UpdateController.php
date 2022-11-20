@@ -2,8 +2,8 @@
 
 namespace Api\Controllers;
 
-use Api\Configs;
 use Api\Services\UpdateService;
+use Api\Singletones\Database;
 use Core\Controllers\Controller;
 use Core\DTO\Response;
 use Core\Exceptions\EntityNotFound;
@@ -20,7 +20,7 @@ class UpdateController extends Controller
      * @return void
      * @throws Exception
      * @throws ORMException
-     * @throws \PHPMailer\PHPMailer\Exception|EntityNotFound
+     * @throws EntityNotFound
      */
     public function get(): void
     {
@@ -32,7 +32,7 @@ class UpdateController extends Controller
             (new Response())->setStatus("error")->setCode(400)->setResponse(["message" => $validation->errors->all()[0]])->send();
 
         (new Response())->setResponse(
-            (new UpdateService(Configs::getInstance()["masterDatabase"]))->get(
+            (new UpdateService(Database::getInstance()))->get(
                 $this->inputData["data"]["product"],
                 $this->inputData["data"]["sort"]
             )
@@ -44,7 +44,7 @@ class UpdateController extends Controller
      * @throws Exception
      * @throws ORMException
      * @throws UnexpectedValueException
-     * @throws \PHPMailer\PHPMailer\Exception|EntityNotFound
+     * @throws EntityNotFound
      */
     public function getAll(): void
     {
@@ -56,7 +56,7 @@ class UpdateController extends Controller
             (new Response())->setStatus("error")->setCode(400)->setResponse(["message" => $validation->errors->all()[0]])->send();
 
         (new Response())->setResponse(
-            (new UpdateService(Configs::getInstance()["masterDatabase"]))->getAll(
+            (new UpdateService(Database::getInstance()))->getAll(
                 $this->inputData["data"]["product"],
                 $this->inputData["data"]["sort"]
             )
