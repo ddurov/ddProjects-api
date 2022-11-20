@@ -27,18 +27,6 @@ try {
             throw new FunctionNotPassed("method not passed");
         });
 
-        $router->mount("/email", function () use ($router) {
-
-            $router->get("/", function () {
-                throw new FunctionNotPassed("function not passed");
-            });
-
-            $router->post("/createCode", "EmailController@createCode");
-
-            $router->get("/confirmCode", "EmailController@confirmCode");
-
-        });
-
         $router->mount("/updates", function () use ($router) {
 
             $router->get("/", function () {
