@@ -5,7 +5,7 @@ start-container:
 	docker run -p 8000:8000 -d api:latest
 
 stop-containers:
-	docker stop $(docker ps -a -q -f ancestor=api)
+	docker stop $$(docker ps -a -q -f ancestor=api)
 
 remove-exited-containers:
-	docker rm $(docker ps -a -q -f status=exited)
+	docker rm $$(docker ps -a -q -f status=exited)
