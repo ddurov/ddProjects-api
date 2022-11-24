@@ -10,6 +10,7 @@ use Core\Exceptions\RouteNotFound;
 use Core\Tools\Other;
 
 header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json; charset=utf-8');
 
 $router = new Router();
 $router->setNamespace("\Api\Controllers");
@@ -21,8 +22,6 @@ try {
     });
 
     $router->mount("/methods", function () use ($router) {
-
-        header('Content-Type: application/json; charset=utf-8');
 
         $router->get("/", function () {
             throw new FunctionNotPassed("method not passed");
