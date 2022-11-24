@@ -9,7 +9,7 @@ use Doctrine\ORM\Exception\ORMException;
 
 class Database implements Singleton
 {
-    private static EntityManager $database;
+    private static ?EntityManager $database = null;
 
     /**
      * @throws ORMException
@@ -23,7 +23,7 @@ class Database implements Singleton
                 getenv("DATABASE_LOGIN"),
                 getenv("DATABASE_PASSWORD"),
                 getenv("DATABASE_SERVER"),
-                __DIR__
+                __DIR__."/../"
             );
         }
         return self::$database;
