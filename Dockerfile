@@ -16,7 +16,4 @@ EXPOSE 8000
 COPY . .
 COPY configs/php.ini /usr/local/etc/php/conf.d/40-custom.ini
 
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-RUN composer install
-
 ENTRYPOINT ["bash", "setup.sh"]
