@@ -14,8 +14,6 @@ use UnexpectedValueException;
 
 class UpdateController extends Controller
 {
-    public array $inputData;
-
     /**
      * @return void
      * @throws Exception
@@ -24,7 +22,7 @@ class UpdateController extends Controller
      */
     public function get(): void
     {
-        $validation = (new Validator())->validate($this->inputData["data"], [
+        $validation = (new Validator())->validate(parent::$inputData["data"], [
             "product" => "required"
         ]);
 
@@ -33,8 +31,8 @@ class UpdateController extends Controller
 
         (new Response())->setResponse(
             (new UpdateService(Database::getInstance()))->get(
-                $this->inputData["data"]["product"],
-                $this->inputData["data"]["sort"]
+                parent::$inputData["data"]["product"],
+                parent::$inputData["data"]["sort"]
             )
         )->send();
     }
@@ -48,7 +46,7 @@ class UpdateController extends Controller
      */
     public function getAll(): void
     {
-        $validation = (new Validator())->validate($this->inputData["data"], [
+        $validation = (new Validator())->validate(parent::$inputData["data"], [
             "product" => "required"
         ]);
 
@@ -57,8 +55,8 @@ class UpdateController extends Controller
 
         (new Response())->setResponse(
             (new UpdateService(Database::getInstance()))->getAll(
-                $this->inputData["data"]["product"],
-                $this->inputData["data"]["sort"]
+                parent::$inputData["data"]["product"],
+                parent::$inputData["data"]["sort"]
             )
         )->send();
     }
