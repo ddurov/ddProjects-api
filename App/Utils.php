@@ -16,6 +16,7 @@ class Utils
         $domainList = explode(",", $domainList);
 
         for ($i = 0; $i < count($domainList); $i++) {
+            if ($domainList[$i] === "") continue;
             if (gethostbyname($domainList[$i]) === $domainList[$i]) {
                 $preparedData[] = ["domain" => $domainList[$i], "requestStatus" => "error", "message" => "domain is invalid"];
                 continue;
