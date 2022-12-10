@@ -5,19 +5,31 @@ namespace Api\Controllers;
 use Api\Utils;
 use Core\Controllers\Controller;
 use Core\DTO\Response;
-use Rakit\Validation\Validator;
+use Core\Exceptions\InvalidParameter;
 
 class UtilController extends Controller
 {
+    private Utils $utils;
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->utils = new Utils();
+        parent::__construct();
+    }
+
+    /**
+     * @return void
+     * @throws InvalidParameter
+     */
     public function getPinningHashDomains(): void
     {
-        $validation = (new Validator())->validate(parent::$inputData["data"], [
-            "domains" => "required"
+        parent::validateData(parent::$inputData["data"], [
+            "product" => "required"
         ]);
 
-        if (isset($validation->errors->all()[0]))
-            (new Response())->setStatus("error")->setCode(400)->setResponse(["message" => $validation->errors->all()[0]])->send();
-
-        (new Response())->setResponse((new Utils())->getPinningHashDomains(parent::$inputData["data"]["domains"]))->send();
+        (new Response())->setResponse($this->utils->getPinningHashDomains(parent::$inputData["data"]["domains"]))->send();
     }
 }

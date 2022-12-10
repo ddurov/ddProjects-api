@@ -19,7 +19,6 @@
         }
     ],
     "require": {
-        "ddprojects/core": "dev-master",
-        "rakit/validation": "v1.0.0"
+        "ddprojects/core": "dev-master"
     }
 }

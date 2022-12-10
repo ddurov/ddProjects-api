@@ -7,30 +7,38 @@ use Api\Singletones\Database;
 use Core\Controllers\Controller;
 use Core\DTO\Response;
 use Core\Exceptions\EntityNotFound;
+use Core\Exceptions\InvalidParameter;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\Exception\ORMException;
-use Rakit\Validation\Validator;
 use UnexpectedValueException;
 
 class UpdateController extends Controller
 {
+    private UpdateService $updateService;
+
+    /**
+     * @throws ORMException
+     * @throws Exception
+     */
+    public function __construct()
+    {
+        $this->updateService = new UpdateService(Database::getInstance());
+        parent::__construct();
+    }
+
     /**
      * @return void
-     * @throws Exception
-     * @throws ORMException
      * @throws EntityNotFound
+     * @throws InvalidParameter
      */
     public function get(): void
     {
-        $validation = (new Validator())->validate(parent::$inputData["data"], [
+        parent::validateData(parent::$inputData["data"], [
             "product" => "required"
         ]);
 
-        if (isset($validation->errors->all()[0]))
-            (new Response())->setStatus("error")->setCode(400)->setResponse(["message" => $validation->errors->all()[0]])->send();
-
         (new Response())->setResponse(
-            (new UpdateService(Database::getInstance()))->get(
+            $this->updateService->get(
                 parent::$inputData["data"]["product"],
                 parent::$inputData["data"]["sort"]
             )
@@ -39,22 +47,18 @@ class UpdateController extends Controller
 
     /**
      * @return void
-     * @throws Exception
-     * @throws ORMException
-     * @throws UnexpectedValueException
      * @throws EntityNotFound
+     * @throws InvalidParameter
+     * @throws UnexpectedValueException
      */
     public function getAll(): void
     {
-        $validation = (new Validator())->validate(parent::$inputData["data"], [
+        parent::validateData(parent::$inputData["data"], [
             "product" => "required"
         ]);
 
-        if (isset($validation->errors->all()[0]))
-            (new Response())->setStatus("error")->setCode(400)->setResponse(["message" => $validation->errors->all()[0]])->send();
-
         (new Response())->setResponse(
-            (new UpdateService(Database::getInstance()))->getAll(
+            $this->updateService->getAll(
                 parent::$inputData["data"]["product"],
                 parent::$inputData["data"]["sort"]
             )
