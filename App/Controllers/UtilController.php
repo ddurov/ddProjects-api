@@ -11,9 +11,6 @@ class UtilController extends Controller
 {
     private Utils $utils;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->utils = new Utils();
