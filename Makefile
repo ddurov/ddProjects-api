@@ -2,7 +2,7 @@ build-image:
 	docker build -t api:latest .
 
 start-container:
-	docker run -v vendor:/root/vendor --name ddProjects -p 8000:8000 -d --restart unless-stopped api:latest
+	docker run -v `pwd`/vendor:/root/vendor --env-file .env --name ddProjects -p 8000:8000 -d --restart unless-stopped api:latest
 
 stop-container:
 	docker stop $$(docker ps -a -q -f ancestor=api)

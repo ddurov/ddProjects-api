@@ -9,8 +9,6 @@ RUN apt-get update && \
   && docker-php-ext-install -j$(nproc) zip mysqli
 WORKDIR /root/
 
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
 EXPOSE 8000
 
 COPY . .
