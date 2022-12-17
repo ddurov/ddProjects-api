@@ -27,6 +27,8 @@ class UtilController extends Controller
             "product" => "required"
         ]);
 
-        (new Response())->setResponse($this->utils->getPinningHashDomains(parent::$inputData["data"]["domains"]))->send();
+        (new Response())->setResponse(
+            $this->utils->getPinningHashDomains(parent::$inputData["data"]["domains"])
+        )->send();
     }
 }

@@ -53,7 +53,8 @@ class UpdateService
         /** @var UpdateModel[] $productUpdates */
         $productUpdates = $this->entityRepository->findBy(["product" => $product], ["version" => $sort ?? "desc"]);
 
-        if ($productUpdates === null) throw new EntityNotFound("current entities 'updates by product' not found");
+        if ($productUpdates === null)
+            throw new EntityNotFound("current entities 'updates by product' not found");
 
         $preparedData = [];
 
