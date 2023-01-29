@@ -24,7 +24,7 @@ class UtilController extends Controller
     public function getPinningHashDomains(): void
     {
         parent::validateData(parent::$inputData["data"], [
-            "product" => "required"
+            "domains" => "required"
         ]);
 
         (new Response())->setResponse(
