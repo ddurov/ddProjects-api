@@ -33,6 +33,8 @@ try {
                 throw new ParametersException("function not passed");
             });
 
+            $router->post("/add", "UpdateController@add");
+
             $router->get("/get", "UpdateController@get");
 
             $router->get("/getAll", "UpdateController@getAll");
