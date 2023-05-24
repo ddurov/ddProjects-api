@@ -6,11 +6,11 @@ use Api\Services\UpdateService;
 use Api\Singletones\Database;
 use Core\Controllers\Controller;
 use Core\DTO\SuccessResponse;
-use Core\Exceptions\EntityNotFound;
-use Core\Exceptions\InvalidParameter;
+use Core\Exceptions\EntityException;
+use Core\Exceptions\ParametersException;
+use Core\Exceptions\PermissionException;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\Exception\ORMException;
-use UnexpectedValueException;
 
 class UpdateController extends Controller
 {
@@ -28,8 +28,32 @@ class UpdateController extends Controller
 
     /**
      * @return void
-     * @throws EntityNotFound
-     * @throws InvalidParameter
+     * @throws ParametersException|PermissionException
+     */
+    public function add(): void
+    {
+        parent::validateData(parent::$inputData["data"] + $_FILES, [
+            "updateFile" => "required|uploaded_file|mimes:apk",
+            "version" => "required",
+            "description" => "required",
+            "uploadToken" => "required"
+        ]);
+
+        if (parent::$inputData["data"]["uploadToken"] !== getenv("UPLOAD_TOKEN"))
+            throw new PermissionException("access to this method only for administrators");
+
+        (new SuccessResponse())->setBody(
+            $this->updateService->add(
+                $_FILES,
+                parent::$inputData["data"]["version"],
+                parent::$inputData["data"]["description"]
+            )
+        )->send();
+    }
+
+    /**
+     * @return void
+     * @throws ParametersException|EntityException
      */
     public function get(): void
     {
@@ -47,9 +71,7 @@ class UpdateController extends Controller
 
     /**
      * @return void
-     * @throws EntityNotFound
-     * @throws InvalidParameter
-     * @throws UnexpectedValueException
+     * @throws ParametersException|EntityException
      */
     public function getAll(): void
     {

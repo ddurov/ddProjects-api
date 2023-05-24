@@ -5,7 +5,7 @@ namespace Api\Controllers;
 use Api\Utils;
 use Core\Controllers\Controller;
 use Core\DTO\SuccessResponse;
-use Core\Exceptions\InvalidParameter;
+use Core\Exceptions\ParametersException;
 
 class UtilController extends Controller
 {
@@ -19,7 +19,7 @@ class UtilController extends Controller
 
     /**
      * @return void
-     * @throws InvalidParameter
+     * @throws ParametersException
      */
     public function getPinningHashDomains(): void
     {

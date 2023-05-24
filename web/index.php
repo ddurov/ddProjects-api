@@ -5,8 +5,8 @@ require_once "../vendor/autoload.php";
 use Bramus\Router\Router;
 use Core\DTO\ErrorResponse;
 use Core\Exceptions\CoreExceptions;
-use Core\Exceptions\FunctionNotPassed;
-use Core\Exceptions\RouteNotFound;
+use Core\Exceptions\ParametersException;
+use Core\Exceptions\RouterException;
 use Core\Tools\Other;
 
 header('Access-Control-Allow-Origin: *');
@@ -24,13 +24,13 @@ try {
     $router->mount("/methods", function () use ($router) {
 
         $router->get("/", function () {
-            throw new FunctionNotPassed("method not passed");
+            throw new ParametersException("method not passed");
         });
 
         $router->mount("/updates", function () use ($router) {
 
             $router->get("/", function () {
-                throw new FunctionNotPassed("function not passed");
+                throw new ParametersException("function not passed");
             });
 
             $router->get("/get", "UpdateController@get");
@@ -44,7 +44,7 @@ try {
     $router->mount("/utils", function () use ($router) {
 
         $router->get("/", function () {
-            throw new FunctionNotPassed("function not passed");
+            throw new ParametersException("function not passed");
         });
 
         $router->get("/getPinningHashDomains", "UtilController@getPinningHashDomains");
@@ -52,7 +52,7 @@ try {
     });
 
     $router->set404(function () {
-        throw new RouteNotFound("current route not found for this request method");
+        throw new RouterException("current route not found for this request method");
     });
 
     $router->run();
