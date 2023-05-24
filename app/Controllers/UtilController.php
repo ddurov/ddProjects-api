@@ -4,7 +4,7 @@ namespace Api\Controllers;
 
 use Api\Utils;
 use Core\Controllers\Controller;
-use Core\DTO\Response;
+use Core\DTO\SuccessResponse;
 use Core\Exceptions\InvalidParameter;
 
 class UtilController extends Controller
@@ -27,7 +27,7 @@ class UtilController extends Controller
             "domains" => "required"
         ]);
 
-        (new Response())->setResponse(
+        (new SuccessResponse())->setBody(
             $this->utils->getPinningHashDomains(parent::$inputData["data"]["domains"])
         )->send();
     }

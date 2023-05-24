@@ -5,7 +5,7 @@ namespace Api\Controllers;
 use Api\Services\UpdateService;
 use Api\Singletones\Database;
 use Core\Controllers\Controller;
-use Core\DTO\Response;
+use Core\DTO\SuccessResponse;
 use Core\Exceptions\EntityNotFound;
 use Core\Exceptions\InvalidParameter;
 use Doctrine\DBAL\Exception;
@@ -37,7 +37,7 @@ class UpdateController extends Controller
             "product" => "required"
         ]);
 
-        (new Response())->setResponse(
+        (new SuccessResponse())->setBody(
             $this->updateService->get(
                 parent::$inputData["data"]["product"],
                 parent::$inputData["data"]["sort"]
@@ -57,7 +57,7 @@ class UpdateController extends Controller
             "product" => "required"
         ]);
 
-        (new Response())->setResponse(
+        (new SuccessResponse())->setBody(
             $this->updateService->getAll(
                 parent::$inputData["data"]["product"],
                 parent::$inputData["data"]["sort"]

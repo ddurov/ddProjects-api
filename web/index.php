@@ -3,7 +3,7 @@
 require_once "../vendor/autoload.php";
 
 use Bramus\Router\Router;
-use Core\DTO\Response;
+use Core\DTO\ErrorResponse;
 use Core\Exceptions\CoreExceptions;
 use Core\Exceptions\FunctionNotPassed;
 use Core\Exceptions\RouteNotFound;
@@ -52,18 +52,22 @@ try {
     });
 
     $router->set404(function () {
-        throw new RouteNotFound();
+        throw new RouteNotFound("current route not found for this request method");
     });
 
     $router->run();
 
 } catch (CoreExceptions $coreExceptions) {
 
-    (new Response)->setStatus("error")->setCode($coreExceptions->getCode())->setResponse(["message" => $coreExceptions->getMessage()])->send();
+    (new ErrorResponse())->setCode($coreExceptions->getCode())->setErrorMessage($coreExceptions->getMessage())->send();
 
 } catch (Throwable $exceptions) {
 
-    Other::log("Error: " . $exceptions->getMessage() . " on line: " . $exceptions->getLine() . " in: " . $exceptions->getFile());
-    (new Response())->setStatus("error")->setCode(500)->setResponse(["message" => "internal error, try later"])->send();
+    Other::log(
+        "Error: " . $exceptions->getMessage() .
+        " on line: " . $exceptions->getLine() .
+        " in: " . $exceptions->getFile()
+    );
+    (new ErrorResponse())->setErrorMessage("internal error, try later")->send();
 
 }

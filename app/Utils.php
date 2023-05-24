@@ -5,7 +5,7 @@ namespace Api;
 class Utils
 {
     /**
-     * Возвращает массив с доменами и хэшаши их сертификатов (в случае ошибки, message: domain is invalid)
+     * Возвращает массив с доменами и хэшаши их сертификатов (в случае ошибки, errorMessage: domain is invalid)
      * @param string $domainList
      * @return array
      */
@@ -18,7 +18,7 @@ class Utils
         for ($i = 0; $i < count($domainList); $i++) {
             if ($domainList[$i] === "") continue;
             if (gethostbyname($domainList[$i]) === $domainList[$i]) {
-                $preparedData[] = ["domain" => $domainList[$i], "requestStatus" => "error", "message" => "domain is invalid"];
+                $preparedData[] = ["domain" => $domainList[$i], "requestStatus" => "error", "errorMessage" => "domain is invalid"];
                 continue;
             }
             $preparedData[] = ["domain" => $domainList[$i], "requestStatus" => "ok", "hash" => shell_exec("openssl s_client -verify_quiet -connect ".htmlspecialchars($domainList[$i], ENT_QUOTES).":443 | openssl x509 -pubkey -noout | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64")];
