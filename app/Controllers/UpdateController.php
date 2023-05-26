@@ -7,6 +7,7 @@ use Api\Singletones\Database;
 use Core\Controllers\Controller;
 use Core\DTO\SuccessResponse;
 use Core\Exceptions\EntityException;
+use Core\Exceptions\InternalError;
 use Core\Exceptions\ParametersException;
 use Core\Exceptions\PermissionException;
 use Doctrine\DBAL\Exception;
@@ -28,12 +29,13 @@ class UpdateController extends Controller
 
     /**
      * @return void
-     * @throws ParametersException|PermissionException
+     * @throws ORMException|ParametersException|PermissionException|InternalError|EntityException
      */
     public function add(): void
     {
         parent::validateData(parent::$inputData["data"] + $_FILES, [
-            "updateFile" => "required|uploaded_file|mimes:apk",
+            "file" => "required|uploaded_file:0,100M,apk",
+            "product" => "required|in:messager,syncer",
             "version" => "required",
             "description" => "required",
             "uploadToken" => "required"
@@ -45,6 +47,7 @@ class UpdateController extends Controller
         (new SuccessResponse())->setBody(
             $this->updateService->add(
                 $_FILES,
+                parent::$inputData["data"]["product"],
                 parent::$inputData["data"]["version"],
                 parent::$inputData["data"]["description"]
             )
