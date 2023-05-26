@@ -56,6 +56,24 @@ class UpdateController extends Controller
 
     /**
      * @return void
+     * @throws EntityException
+     * @throws ParametersException
+     */
+    public function download(): void
+    {
+        parent::validateData(parent::$inputData["data"], [
+            "product" => "required",
+            "version" => "required"
+        ]);
+
+        $this->updateService->download(
+            parent::$inputData["data"]["product"],
+            parent::$inputData["data"]["version"]
+        );
+    }
+
+    /**
+     * @return void
      * @throws ParametersException|EntityException
      */
     public function get(): void

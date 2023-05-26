@@ -24,6 +24,7 @@ class UpdateService
     }
 
     /**
+     * Добавляет обновление для указанного продукта
      * @param array $file
      * @param string $product
      * @param string $version
@@ -53,6 +54,27 @@ class UpdateService
         $this->entityManager->flush();
 
         return true;
+    }
+
+    /**
+     * Отдаёт обновление на скачивание
+     * @param string $product
+     * @param string $version
+     * @return void
+     * @throws EntityException
+     */
+    public function download(string $product, string $version): void
+    {
+        /** @var UpdateModel $productUpdate */
+        $productUpdate = $this->entityRepository->findOneBy(["product" => $product, "version" => $version]);
+
+        if ($productUpdate === null)
+            throw new EntityException("current entity 'update by product and version' not found", 404);
+
+        header("Content-Length:" . filesize($productUpdate->getPath()));
+        header("Content-Disposition: attachment; filename=update.apk");
+        readfile($productUpdate->getPath());
+        die();
     }
 
     /**
