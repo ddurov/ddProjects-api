@@ -24,8 +24,7 @@ class Database implements Singleton
                 getenv("DATABASE_PASSWORD"),
                 getenv("DATABASE_SERVER"),
                 (int) getenv("DATABASE_PORT"),
-                __DIR__."/../",
-                "pgsql"
+                __DIR__."/../"
             );
         }
         return self::$database;
