@@ -12,8 +12,7 @@ class Database implements Singleton
     private static ?EntityManager $database = null;
 
     /**
-     * @throws ORMException
-     * @throws Exception
+     * @throws Exception|ORMException
      */
     public static function getInstance(): EntityManager
     {
