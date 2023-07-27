@@ -2,7 +2,7 @@
 
 namespace Api;
 
-class Utils
+class Service
 {
     /**
      * Возвращает массив с доменами и хэшаши их сертификатов (в случае ошибки, errorMessage: domain is invalid)

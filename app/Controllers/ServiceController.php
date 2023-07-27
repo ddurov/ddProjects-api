@@ -2,18 +2,18 @@
 
 namespace Api\Controllers;
 
-use Api\Utils;
+use Api\Service;
 use Core\Controllers\Controller;
 use Core\DTO\SuccessResponse;
 use Core\Exceptions\ParametersException;
 
-class UtilController extends Controller
+class ServiceController extends Controller
 {
-    private Utils $utils;
+    private Service $utils;
 
     public function __construct()
     {
-        $this->utils = new Utils();
+        $this->utils = new Service();
         parent::__construct();
     }
 

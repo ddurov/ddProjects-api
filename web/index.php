@@ -27,6 +27,16 @@ try {
             throw new ParametersException("method not passed");
         });
 
+        $router->mount("/service", function () use ($router) {
+
+            $router->get("/", function () {
+                throw new ParametersException("function not passed");
+            });
+
+            $router->get("/getPinningHashDomains", "ServiceController@getPinningHashDomains");
+
+        });
+
         $router->mount("/updates", function () use ($router) {
 
             $router->get("/", function () {
@@ -42,16 +52,6 @@ try {
             $router->get("/getAll", "UpdateController@getAll");
 
         });
-
-    });
-
-    $router->mount("/utils", function () use ($router) {
-
-        $router->get("/", function () {
-            throw new ParametersException("function not passed");
-        });
-
-        $router->get("/getPinningHashDomains", "UtilController@getPinningHashDomains");
 
     });
 
