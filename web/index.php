@@ -45,11 +45,11 @@ try {
 
             $router->post("/add", "UpdateController@add");
 
-            $router->get("/download", "UpdateController@download");
-
             $router->get("/get", "UpdateController@get");
 
-            $router->get("/getAll", "UpdateController@getAll");
+            $router->get("/info", "UpdateController@info");
+
+            $router->get("/infoAll", "UpdateController@infoAll");
 
         });
 

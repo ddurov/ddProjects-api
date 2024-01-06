@@ -15,26 +15,28 @@ class UpdateModel extends Model
     #[Column(type: Types::TEXT)]
     private string $product;
     #[Column(type: Types::TEXT)]
-    private string $version;
+    private string $versionName;
+    #[Column(type: Types::INTEGER)]
+    private int $versionCode;
     #[Column(type: Types::TEXT)]
     private string $path;
     #[Column(type: Types::TEXT)]
     private string $description;
 
     /**
-     * @return int
+     * @param string $product
+     * @param string $versionName
+     * @param int $versionCode
+     * @param string $path
+     * @param string $description
      */
-    public function getId(): int
+    public function __construct(string $product, string $versionName, int $versionCode, string $path, string $description)
     {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
+        $this->product = $product;
+        $this->versionName = $versionName;
+        $this->versionCode = $versionCode;
+        $this->path = $path;
+        $this->description = $description;
     }
 
     /**
@@ -46,27 +48,19 @@ class UpdateModel extends Model
     }
 
     /**
-     * @param string $product
-     */
-    public function setProduct(string $product): void
-    {
-        $this->product = $product;
-    }
-
-    /**
      * @return string
      */
-    public function getVersion(): string
+    public function getVersionName(): string
     {
-        return $this->version;
+        return $this->versionName;
     }
 
     /**
-     * @param string $version
+     * @return int
      */
-    public function setVersion(string $version): void
+    public function getVersionCode(): int
     {
-        $this->version = $version;
+        return $this->versionCode;
     }
 
     /**
@@ -75,14 +69,6 @@ class UpdateModel extends Model
     public function getPath(): string
     {
         return $this->path;
-    }
-
-    /**
-     * @param string $path
-     */
-    public function setPath(string $path): void
-    {
-        $this->path = $path;
     }
 
     /**

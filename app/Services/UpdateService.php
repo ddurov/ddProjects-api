@@ -27,30 +27,32 @@ class UpdateService
      * Добавляет обновление для указанного продукта
      * @param array $file
      * @param string $product
-     * @param string $version
+     * @param string $versionName
+     * @param int $versionCode
      * @param string $description
      * @return bool
+     * @throws EntityException
      * @throws InternalError
      * @throws ORMException
-     * @throws OptimisticLockException|EntityException
+     * @throws OptimisticLockException
      */
-    public function add(array $file, string $product, string $version, string $description): bool
+    public function add(array $file, string $product, string $versionName, int $versionCode, string $description): bool
     {
         $path = "/var/www/updates/{$file['file']['name']}";
 
         if (!move_uploaded_file($file["file"]["tmp_name"], $path))
             throw new InternalError("update file not moved to specify directory");
 
-        if ($this->entityRepository->findOneBy(["product" => $product, "version" => $version]))
-            throw new EntityException("current entity 'update by product and version' are exists", 422);
+        if ($this->entityRepository->findOneBy(["product" => $product, "versionCode" => $versionCode]))
+            throw new EntityException("current entity 'update by product and versionCode' are exists", 422);
 
-        $newUpdate = new UpdateModel();
-        $newUpdate->setPath($path);
-        $newUpdate->setProduct($product);
-        $newUpdate->setVersion($version);
-        $newUpdate->setDescription($description);
-
-        $this->entityManager->persist($newUpdate);
+        $this->entityManager->persist(new UpdateModel(
+            $product,
+            $versionName,
+            $versionCode,
+            $path,
+            $description
+        ));
         $this->entityManager->flush();
 
         return true;
@@ -59,17 +61,17 @@ class UpdateService
     /**
      * Отдаёт обновление на скачивание
      * @param string $product
-     * @param string $version
+     * @param string $versionName
      * @return void
      * @throws EntityException
      */
-    public function download(string $product, string $version): void
+    public function get(string $product, string $versionName): void
     {
         /** @var UpdateModel $productUpdate */
-        $productUpdate = $this->entityRepository->findOneBy(["product" => $product, "version" => $version]);
+        $productUpdate = $this->entityRepository->findOneBy(["product" => $product, "versionName" => $versionName]);
 
         if ($productUpdate === null)
-            throw new EntityException("current entity 'update by product and version' not found", 404);
+            throw new EntityException("current entity 'update by product and versionName' not found", 404);
 
         header("Content-Length:" . filesize($productUpdate->getPath()));
         header("Content-Disposition: attachment; filename=update.apk");
@@ -84,16 +86,17 @@ class UpdateService
      * @return array
      * @throws EntityException
      */
-    public function get(string $product, ?string $sort): array
+    public function info(string $product, ?string $sort): array
     {
         /** @var UpdateModel $productUpdate */
-        $productUpdate = $this->entityRepository->findOneBy(["product" => $product], ["version" => $sort ?? "desc"]);
+        $productUpdate = $this->entityRepository->findOneBy(["product" => $product], ["versionCode" => $sort ?? "desc"]);
 
         if ($productUpdate === null) throw new EntityException("current entity 'update by product' not found", 404);
 
         return [
             "product" => $productUpdate->getProduct(),
-            "version" => $productUpdate->getVersion(),
+            "versionName" => $productUpdate->getVersionName(),
+            "versionCode" => $productUpdate->getVersionCode(),
             "description" => $productUpdate->getDescription()
         ];
     }
@@ -106,10 +109,10 @@ class UpdateService
      * @throws UnexpectedValueException
      * @throws EntityException
      */
-    public function getAll(string $product, ?string $sort): array
+    public function infoAll(string $product, ?string $sort): array
     {
         /** @var UpdateModel[] $productUpdates */
-        $productUpdates = $this->entityRepository->findBy(["product" => $product], ["version" => $sort ?? "desc"]);
+        $productUpdates = $this->entityRepository->findBy(["product" => $product], ["versionCode" => $sort ?? "desc"]);
 
         if ($productUpdates === null)
             throw new EntityException("current entities 'updates by product' not found", 404);
@@ -119,7 +122,8 @@ class UpdateService
         foreach ($productUpdates as $update) {
             $preparedData[] = [
                 "product" => $update->getProduct(),
-                "version" => $update->getVersion(),
+                "versionName" => $update->getVersionName(),
+                "versionCode" => $update->getVersionCode(),
                 "description" => $update->getDescription()
             ];
         }

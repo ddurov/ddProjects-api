@@ -36,7 +36,8 @@ class UpdateController extends Controller
         parent::validateData(parent::$inputData["data"] + $_FILES, [
             "file" => "required|uploaded_file:0,100M,apk",
             "product" => "required|in:messager,syncer",
-            "version" => "required",
+            "versionName" => "required",
+            "versionCode" => "required",
             "description" => "required",
             "uploadToken" => "required"
         ]);
@@ -48,7 +49,8 @@ class UpdateController extends Controller
             $this->updateService->add(
                 $_FILES,
                 parent::$inputData["data"]["product"],
-                parent::$inputData["data"]["version"],
+                strval(parent::$inputData["data"]["versionName"]),
+                parent::$inputData["data"]["versionCode"],
                 parent::$inputData["data"]["description"]
             )
         )->send();
@@ -59,16 +61,16 @@ class UpdateController extends Controller
      * @throws EntityException
      * @throws ParametersException
      */
-    public function download(): void
+    public function get(): void
     {
         parent::validateData(parent::$inputData["data"], [
             "product" => "required",
-            "version" => "required"
+            "versionName" => "required"
         ]);
 
-        $this->updateService->download(
+        $this->updateService->get(
             parent::$inputData["data"]["product"],
-            parent::$inputData["data"]["version"]
+            strval(parent::$inputData["data"]["versionName"])
         );
     }
 
@@ -76,14 +78,14 @@ class UpdateController extends Controller
      * @return void
      * @throws ParametersException|EntityException
      */
-    public function get(): void
+    public function info(): void
     {
         parent::validateData(parent::$inputData["data"], [
             "product" => "required"
         ]);
 
         (new SuccessResponse())->setBody(
-            $this->updateService->get(
+            $this->updateService->info(
                 parent::$inputData["data"]["product"],
                 parent::$inputData["data"]["sort"]
             )
@@ -94,14 +96,14 @@ class UpdateController extends Controller
      * @return void
      * @throws ParametersException|EntityException
      */
-    public function getAll(): void
+    public function infoAll(): void
     {
         parent::validateData(parent::$inputData["data"], [
             "product" => "required"
         ]);
 
         (new SuccessResponse())->setBody(
-            $this->updateService->getAll(
+            $this->updateService->infoAll(
                 parent::$inputData["data"]["product"],
                 parent::$inputData["data"]["sort"]
             )
