@@ -3,7 +3,7 @@
 namespace Api\Controllers;
 
 use Api\Services\UpdateService;
-use Api\Singletone\Database;
+use Api\Singleton\Database;
 use Core\Controllers\Controller;
 use Core\DTO\SuccessResponse;
 use Core\Exceptions\EntityException;
