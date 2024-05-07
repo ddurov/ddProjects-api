@@ -1,16 +1,30 @@
-version: "3.8"
 services:
+  web:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - app
+    depends_on:
+      - app
+    volumes:
+      - ../index.php:/var/www/index.php:ro
+      - ./nginx/project.conf:/etc/nginx/conf.d/project.conf:ro
+      - ./nginx/certs/:/etc/nginx/ssl/:ro
   app:
     build: php
     env_file:
       - ../.env
-    volumes:
-      - ../docker/products_updates/:/var/www/updates/
-      - ../app/:/var/www/app/
-      - ../web/:/var/www/html/
-      - ../vendor/:/var/www/vendor/
     links:
       - db
+    depends_on:
+      - db
+    volumes:
+      - ../index.php:/var/www/index.php:ro
+      - ../vendor/:/var/www/vendor/:ro
+      - ../src/:/var/www/src/:ro
+      - ../logs/:/var/www/logs/
     deploy:
       restart_policy:
         condition: on-failure
@@ -26,28 +40,18 @@ services:
       MYSQL_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
       - db-data:/var/lib/mysql
-      - ../docker/database/:/docker-entrypoint-initdb.d/:ro
+      - ./service/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
   db-admin:
     image: phpmyadmin
     restart: unless-stopped
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+    ports:
+      - 8080:80
     links:
       - db
     depends_on:
       - db
-  nginx-proxy:
-    image: 'jc21/nginx-proxy-manager:latest'
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-      - ${WEB_PROXY_ADMIN_PORT}:81
-    volumes:
-      - proxy-data:/data
-      - proxy-letsencrypt:/etc/letsencrypt
 volumes:
   db-data:
-  proxy-data:
-  proxy-letsencrypt:

@@ -5,7 +5,6 @@ namespace Api\Services;
 use Api\Models\UpdateModel;
 use Core\Exceptions\EntityException;
 use Core\Exceptions\InternalError;
-use Core\Exceptions\ParametersException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Exception\ORMException;

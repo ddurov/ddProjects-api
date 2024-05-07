@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-require_once "../vendor/autoload.php";
+require_once "vendor/autoload.php";
 
 use Bramus\Router\Router;
 use Core\DTO\ErrorResponse;
@@ -68,9 +68,11 @@ try {
 } catch (Throwable $exceptions) {
 
     Other::log(
+        "/var/www/logs",
+        "project",
         "Error: " . $exceptions->getMessage() .
-        " on line: " . $exceptions->getLine() .
-        " in: " . $exceptions->getFile()
+        ", on line: " . $exceptions->getLine() .
+        ", in: " . $exceptions->getFile()
     );
     (new ErrorResponse())->setErrorMessage("internal error, try later")->send();
 
