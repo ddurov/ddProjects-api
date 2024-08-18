@@ -69,7 +69,7 @@ try {
 
 	Other::log(
 		"/var/www/logs",
-		"project",
+		"general",
 		"Error: " . $exceptions->getMessage() .
 		", on line: " . $exceptions->getLine() .
 		", in: " . $exceptions->getFile()

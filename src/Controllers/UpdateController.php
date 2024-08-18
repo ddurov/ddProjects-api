@@ -11,6 +11,7 @@ use Core\Exceptions\InternalError;
 use Core\Exceptions\ParametersException;
 use Core\Exceptions\PermissionException;
 use Doctrine\DBAL\Exception;
+use Doctrine\ORM\Exception\NotSupported;
 use Doctrine\ORM\Exception\ORMException;
 
 class UpdateController extends Controller
@@ -18,12 +19,11 @@ class UpdateController extends Controller
 	private UpdateService $updateService;
 
 	/**
-	 * @throws ORMException
-	 * @throws Exception
+	 * @throws NotSupported
 	 */
 	public function __construct()
 	{
-		$this->updateService = new UpdateService(Database::getInstance());
+		$this->updateService = new UpdateService(Database::getEntityManager());
 		parent::__construct();
 	}
 

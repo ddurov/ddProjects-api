@@ -7,6 +7,7 @@ use Core\Exceptions\EntityException;
 use Core\Exceptions\InternalError;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Exception\NotSupported;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use UnexpectedValueException;
@@ -16,6 +17,9 @@ class UpdateService
 	private EntityManager $entityManager;
 	private EntityRepository $entityRepository;
 
+	/**
+	 * @throws NotSupported
+	 */
 	public function __construct(EntityManager $entityManager)
 	{
 		$this->entityManager = $entityManager;

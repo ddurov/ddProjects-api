@@ -1,24 +1,23 @@
 {
-  "name": "ddprojects/api",
   "autoload": {
-	"psr-4": {
-	  "Api\\": "src/"
-	}
+    "psr-4": {
+      "Api\\": "src/"
+    }
   },
   "authors": [
-	{
-	  "name": "ddurov",
-	  "email": "admin@ddproj.ru"
-	}
+    {
+      "name": "ddurov",
+      "email": "admin@ddproj.ru"
+    }
   ],
   "repositories": [
-	{
-	  "type": "vcs",
-	  "url": "https://github.com/ddurov/ddProjects-core",
-	  "no-api": true
-	}
+    {
+      "type": "vcs",
+      "url": "https://github.com/ddurov/ddProjects-core",
+      "no-api": true
+    }
   ],
   "require": {
-	"ddprojects/core": "dev-main"
+    "ddprojects/core": "dev-main"
   }
 }
