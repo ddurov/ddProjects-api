@@ -2,6 +2,7 @@
 
 require_once "vendor/autoload.php";
 
+use Api\Controllers\ServiceController;
 use Bramus\Router\Router;
 use Core\DTO\ErrorResponse;
 use Core\Exceptions\CoreExceptions;
@@ -68,7 +69,7 @@ try {
 } catch (Throwable $exceptions) {
 
 	Other::log(
-		"/var/www/logs",
+		"logs",
 		"general",
 		"Error: " . $exceptions->getMessage() .
 		", on line: " . $exceptions->getLine() .
