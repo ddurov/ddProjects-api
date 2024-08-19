@@ -10,15 +10,16 @@ use Core\Exceptions\EntityException;
 use Core\Exceptions\InternalError;
 use Core\Exceptions\ParametersException;
 use Core\Exceptions\PermissionException;
-use Doctrine\DBAL\Exception;
 use Doctrine\ORM\Exception\NotSupported;
 use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 
 class UpdateController extends Controller
 {
 	private UpdateService $updateService;
 
 	/**
+	 * @throws InternalError
 	 * @throws NotSupported
 	 */
 	public function __construct()
@@ -29,7 +30,12 @@ class UpdateController extends Controller
 
 	/**
 	 * @return void
-	 * @throws ORMException|ParametersException|PermissionException|InternalError|EntityException
+	 * @throws EntityException
+	 * @throws InternalError
+	 * @throws ORMException
+	 * @throws ParametersException
+	 * @throws PermissionException
+	 * @throws OptimisticLockException
 	 */
 	public function add(): void
 	{
@@ -76,7 +82,8 @@ class UpdateController extends Controller
 
 	/**
 	 * @return void
-	 * @throws ParametersException|EntityException
+	 * @throws EntityException
+	 * @throws ParametersException
 	 */
 	public function info(): void
 	{
@@ -94,7 +101,8 @@ class UpdateController extends Controller
 
 	/**
 	 * @return void
-	 * @throws ParametersException|EntityException
+	 * @throws EntityException
+	 * @throws ParametersException
 	 */
 	public function infoAll(): void
 	{

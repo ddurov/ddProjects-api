@@ -2,7 +2,6 @@
 
 require_once "vendor/autoload.php";
 
-use Api\Controllers\ServiceController;
 use Bramus\Router\Router;
 use Core\DTO\ErrorResponse;
 use Core\Exceptions\CoreExceptions;
