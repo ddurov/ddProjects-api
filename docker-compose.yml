@@ -17,7 +17,7 @@ services:
       - ./service/certs/:/etc/nginx/ssl/:ro
   app:
     image: ddprojects/api
-    hostname: ${API_SUB_NAME}
+    hostname: api
     env_file:
       - .env
     links:
