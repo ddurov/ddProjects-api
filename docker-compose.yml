@@ -3,7 +3,7 @@ services:
     image: nginx:latest
     restart: unless-stopped
     env_file:
-      - .env
+      - .env.nginx
     ports:
       - "80:80"
       - "443:443"
