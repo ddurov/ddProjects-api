@@ -3,11 +3,12 @@
 require_once "vendor/autoload.php";
 
 use Bramus\Router\Router;
-use Core\DTO\ErrorResponse;
+use Core\Controller;
 use Core\Exceptions\CoreExceptions;
 use Core\Exceptions\ParametersException;
 use Core\Exceptions\RouterException;
-use Core\Tools\Other;
+use Core\Models\ErrorResponse;
+use Core\Tools;
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json; charset=utf-8');
@@ -61,19 +62,19 @@ try {
 
 	$router->run();
 
-} catch (CoreExceptions $coreExceptions) {
-
-	(new ErrorResponse())->setCode($coreExceptions->getCode())->setErrorMessage($coreExceptions->getMessage())->send();
-
 } catch (Throwable $exceptions) {
 
-	Other::log(
-		"logs",
-		"general",
-		"Error: " . $exceptions->getMessage() .
-		", on line: " . $exceptions->getLine() .
-		", in: " . $exceptions->getFile()
-	);
-	(new ErrorResponse())->setErrorMessage("internal error, try later")->send();
+	if ($exceptions instanceof CoreExceptions) {
+		$response = new ErrorResponse($exceptions->getMessage(), $exceptions->getCode());
+	} else {
+		$response = new ErrorResponse("internal error, try later", 500);
+		Tools::log(
+			1,
+			"Error: " . $exceptions->getMessage() .
+			", on line: " . $exceptions->getLine() .
+			", in: " . $exceptions->getFile()
+		);
+	}
+	Controller::sendResponse($response);
 
 }

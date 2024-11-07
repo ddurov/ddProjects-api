@@ -2,11 +2,13 @@
 
 require_once "vendor/autoload.php";
 
-use Api\Singleton\Database;
+use Core\Database;
+use Core\Tools;
 use Doctrine\ORM\Exception\MissingMappingDriverImplementation;
 
 try {
 	Database::getInstance()->executeCLI();
 } catch (\Doctrine\DBAL\Exception|MissingMappingDriverImplementation $e) {
-	echo "CLI error: " . $e->getMessage();
+	Tools::log(1, "CLI error: {$e->getMessage()}\n");
+	die(0);
 }
