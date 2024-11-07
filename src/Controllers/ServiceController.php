@@ -3,9 +3,10 @@
 namespace Api\Controllers;
 
 use Api\Service;
-use Core\Controllers\Controller;
-use Core\DTO\SuccessResponse;
+use Core\Controller;
 use Core\Exceptions\ParametersException;
+use Core\Models\SuccessResponse;
+use JetBrains\PhpStorm\NoReturn;
 
 class ServiceController extends Controller
 {
@@ -21,14 +22,14 @@ class ServiceController extends Controller
 	 * @return void
 	 * @throws ParametersException
 	 */
-	public function getPinningHashDomains(): void
+	#[NoReturn] public function getPinningHashDomains(): void
 	{
 		parent::validateData(parent::$inputData["data"], [
 			"domains" => "required"
 		]);
 
-		(new SuccessResponse())->setBody(
+		parent::sendResponse(new SuccessResponse(
 			$this->utils->getPinningHashDomains(parent::$inputData["data"]["domains"])
-		)->send();
+		));
 	}
 }

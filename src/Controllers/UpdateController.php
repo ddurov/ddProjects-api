@@ -3,28 +3,31 @@
 namespace Api\Controllers;
 
 use Api\Services\UpdateService;
-use Api\Singleton\Database;
-use Core\Controllers\Controller;
-use Core\DTO\SuccessResponse;
+use Core\Controller;
+use Core\Database;
 use Core\Exceptions\EntityException;
 use Core\Exceptions\InternalError;
 use Core\Exceptions\ParametersException;
 use Core\Exceptions\PermissionException;
-use Doctrine\ORM\Exception\NotSupported;
+use Core\Models\SuccessResponse;
+use Doctrine\DBAL\Exception;
+use Doctrine\ORM\Exception\MissingMappingDriverImplementation;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use JetBrains\PhpStorm\NoReturn;
 
 class UpdateController extends Controller
 {
 	private UpdateService $updateService;
 
+
 	/**
-	 * @throws InternalError
-	 * @throws NotSupported
+	 * @throws MissingMappingDriverImplementation
+	 * @throws Exception
 	 */
 	public function __construct()
 	{
-		$this->updateService = new UpdateService(Database::getEntityManager());
+		$this->updateService = new UpdateService(Database::getInstance()->getEntityManager());
 		parent::__construct();
 	}
 
@@ -51,7 +54,7 @@ class UpdateController extends Controller
 		if (parent::$inputData["data"]["uploadToken"] !== getenv("UPLOAD_TOKEN"))
 			throw new PermissionException("access to this method only for administrators");
 
-		(new SuccessResponse())->setBody(
+		parent::sendResponse(new SuccessResponse(
 			$this->updateService->add(
 				$_FILES,
 				parent::$inputData["data"]["product"],
@@ -59,7 +62,7 @@ class UpdateController extends Controller
 				parent::$inputData["data"]["versionCode"],
 				parent::$inputData["data"]["description"]
 			)
-		)->send();
+		));
 	}
 
 	/**
@@ -85,18 +88,18 @@ class UpdateController extends Controller
 	 * @throws EntityException
 	 * @throws ParametersException
 	 */
-	public function info(): void
+	#[NoReturn] public function info(): void
 	{
 		parent::validateData(parent::$inputData["data"], [
 			"product" => "required"
 		]);
 
-		(new SuccessResponse())->setBody(
+		parent::sendResponse(new SuccessResponse(
 			$this->updateService->info(
 				parent::$inputData["data"]["product"],
 				parent::$inputData["data"]["sort"]
 			)
-		)->send();
+		));
 	}
 
 	/**
@@ -104,17 +107,17 @@ class UpdateController extends Controller
 	 * @throws EntityException
 	 * @throws ParametersException
 	 */
-	public function infoAll(): void
+	#[NoReturn] public function infoAll(): void
 	{
 		parent::validateData(parent::$inputData["data"], [
 			"product" => "required"
 		]);
 
-		(new SuccessResponse())->setBody(
+		parent::sendResponse(new SuccessResponse(
 			$this->updateService->infoAll(
 				parent::$inputData["data"]["product"],
 				parent::$inputData["data"]["sort"]
 			)
-		)->send();
+		));
 	}
 }
