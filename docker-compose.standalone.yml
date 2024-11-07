@@ -1,0 +1,25 @@
+services:
+  web:
+    extends:
+      file: docker-compose.module.yml
+      service: web
+    env_file:
+      - .env.nginx
+    volumes:
+      - ./service/nginx.conf:/etc/nginx/nginx.conf:ro
+  app:
+    extends:
+      file: docker-compose.module.yml
+      service: app
+    env_file:
+      - .env
+  db:
+    extends:
+      file: docker-compose.module.yml
+      service: db
+  db-admin:
+    extends:
+      file: docker-compose.module.yml
+      service: db-admin
+volumes:
+  db-data:

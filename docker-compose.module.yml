@@ -2,8 +2,6 @@ services:
   web:
     image: nginx:latest
     restart: unless-stopped
-    env_file:
-      - .env.nginx
     ports:
       - "80:80"
       - "443:443"
@@ -13,13 +11,10 @@ services:
       - app
     volumes:
       - ./service/default.conf.template:/etc/nginx/templates/default.conf.template:ro
-      - ./service/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./service/certs/:/etc/nginx/ssl/:ro
   app:
     image: ddprojects/api
     hostname: api
-    env_file:
-      - .env
     links:
       - db
     depends_on:
