@@ -34,7 +34,7 @@ try {
 				throw new ParametersException("function not passed");
 			});
 
-			$router->get("/getPinningHashDomains", "ServiceController@getPinningHashDomains");
+			$router->get("/getPinningHashDomains", "ToolsController@getPinningHashDomains");
 
 		});
 

@@ -2,19 +2,19 @@
 
 namespace Api\Controllers;
 
-use Api\Service;
+use Api\Services\ToolsService;
 use Core\Controller;
 use Core\Exceptions\ParametersException;
 use Core\Models\SuccessResponse;
 use JetBrains\PhpStorm\NoReturn;
 
-class ServiceController extends Controller
+class ToolsController extends Controller
 {
-	private Service $utils;
+	private ToolsService $utils;
 
 	public function __construct()
 	{
-		$this->utils = new Service();
+		$this->utils = new ToolsService();
 		parent::__construct();
 	}
 
