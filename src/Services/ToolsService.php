@@ -1,8 +1,8 @@
 <?php
 
-namespace Api;
+namespace Api\Services;
 
-class Service
+class ToolsService
 {
 	/**
 	 * Возвращает массив с доменами и хэшаши их сертификатов (в случае ошибки, errorMessage: domain is invalid)

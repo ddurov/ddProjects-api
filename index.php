@@ -28,13 +28,13 @@ try {
 			throw new ParametersException("method not passed");
 		});
 
-		$router->mount("/service", function () use ($router) {
+		$router->mount("/tools", function () use ($router) {
 
 			$router->get("/", function () {
 				throw new ParametersException("function not passed");
 			});
 
-			$router->get("/getPinningHashDomains", "ServiceController@getPinningHashDomains");
+			$router->get("/getPinningHashDomains", "ToolsController@getPinningHashDomains");
 
 		});
 
