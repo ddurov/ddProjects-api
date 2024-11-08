@@ -51,15 +51,15 @@ class UpdateController extends Controller
 		if ($this->data["uploadToken"] !== getenv("UPLOAD_TOKEN"))
 			throw new PermissionException("access to this method only for administrators");
 
-		parent::sendResponse(new SuccessResponse(
-			$this->updateService->add(
-				$_FILES,
-				$this->data["product"],
-				strval($this->data["versionName"]),
-				$this->data["versionCode"],
-				$this->data["description"]
-			)
-		));
+		$this->updateService->add(
+			$_FILES,
+			$this->data["product"],
+			strval($this->data["versionName"]),
+			$this->data["versionCode"],
+			$this->data["description"]
+		);
+
+		parent::sendResponse(new SuccessResponse("added"));
 	}
 
 	/**

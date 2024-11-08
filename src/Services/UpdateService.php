@@ -33,13 +33,12 @@ class UpdateService
 	 * @param string $versionName
 	 * @param int $versionCode
 	 * @param string $description
-	 * @return bool
 	 * @throws EntityException
 	 * @throws InternalError
 	 * @throws ORMException
 	 * @throws OptimisticLockException
 	 */
-	public function add(array $file, string $product, string $versionName, int $versionCode, string $description): bool
+	public function add(array $file, string $product, string $versionName, int $versionCode, string $description): void
 	{
 		$path = "/var/www/updates/{$file['file']['name']}";
 
@@ -57,8 +56,6 @@ class UpdateService
 			$description
 		));
 		$this->entityManager->flush();
-
-		return true;
 	}
 
 	/**
