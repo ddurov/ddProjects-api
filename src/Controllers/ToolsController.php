@@ -24,12 +24,12 @@ class ToolsController extends Controller
 	 */
 	#[NoReturn] public function getPinningHashDomains(): void
 	{
-		parent::validateData(parent::$inputData["data"], [
+		parent::validateData($this->data, [
 			"domains" => "required"
 		]);
 
 		parent::sendResponse(new SuccessResponse(
-			$this->utils->getPinningHashDomains(parent::$inputData["data"]["domains"])
+			$this->utils->getPinningHashDomains($this->data["domains"])
 		));
 	}
 }

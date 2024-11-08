@@ -39,7 +39,7 @@ class UpdateController extends Controller
 	 */
 	public function add(): void
 	{
-		parent::validateData(parent::$inputData["data"] + $_FILES, [
+		parent::validateData($this->data + $_FILES, [
 			"file" => "required|uploaded_file:0,100M,apk",
 			"product" => "required|in:messenger,syncer",
 			"versionName" => "required",
@@ -48,16 +48,16 @@ class UpdateController extends Controller
 			"uploadToken" => "required"
 		]);
 
-		if (parent::$inputData["data"]["uploadToken"] !== getenv("UPLOAD_TOKEN"))
+		if ($this->data["uploadToken"] !== getenv("UPLOAD_TOKEN"))
 			throw new PermissionException("access to this method only for administrators");
 
 		parent::sendResponse(new SuccessResponse(
 			$this->updateService->add(
 				$_FILES,
-				parent::$inputData["data"]["product"],
-				strval(parent::$inputData["data"]["versionName"]),
-				parent::$inputData["data"]["versionCode"],
-				parent::$inputData["data"]["description"]
+				$this->data["product"],
+				strval($this->data["versionName"]),
+				$this->data["versionCode"],
+				$this->data["description"]
 			)
 		));
 	}
@@ -69,14 +69,14 @@ class UpdateController extends Controller
 	 */
 	public function get(): void
 	{
-		parent::validateData(parent::$inputData["data"], [
+		parent::validateData($this->data, [
 			"product" => "required",
 			"versionName" => "required"
 		]);
 
 		$this->updateService->get(
-			parent::$inputData["data"]["product"],
-			strval(parent::$inputData["data"]["versionName"])
+			$this->data["product"],
+			strval($this->data["versionName"])
 		);
 	}
 
@@ -87,14 +87,14 @@ class UpdateController extends Controller
 	 */
 	#[NoReturn] public function info(): void
 	{
-		parent::validateData(parent::$inputData["data"], [
+		parent::validateData($this->data, [
 			"product" => "required"
 		]);
 
 		parent::sendResponse(new SuccessResponse(
 			$this->updateService->info(
-				parent::$inputData["data"]["product"],
-				parent::$inputData["data"]["sort"]
+				$this->data["product"],
+				$this->data["sort"]
 			)
 		));
 	}
@@ -106,14 +106,14 @@ class UpdateController extends Controller
 	 */
 	#[NoReturn] public function infoAll(): void
 	{
-		parent::validateData(parent::$inputData["data"], [
+		parent::validateData($this->data, [
 			"product" => "required"
 		]);
 
 		parent::sendResponse(new SuccessResponse(
 			$this->updateService->infoAll(
-				parent::$inputData["data"]["product"],
-				parent::$inputData["data"]["sort"]
+				$this->data["product"],
+				$this->data["sort"]
 			)
 		));
 	}
