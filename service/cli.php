@@ -10,5 +10,5 @@ try {
 	Database::getInstance()->executeCLI();
 } catch (\Doctrine\DBAL\Exception|MissingMappingDriverImplementation $e) {
 	Tools::log(1, "CLI error: {$e->getMessage()}\n");
-	die(0);
+	die(1);
 }

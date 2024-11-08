@@ -11,7 +11,6 @@ use Core\Exceptions\ParametersException;
 use Core\Exceptions\PermissionException;
 use Core\Models\SuccessResponse;
 use Doctrine\DBAL\Exception;
-use Doctrine\ORM\Exception\MissingMappingDriverImplementation;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use JetBrains\PhpStorm\NoReturn;
@@ -20,9 +19,7 @@ class UpdateController extends Controller
 {
 	private UpdateService $updateService;
 
-
 	/**
-	 * @throws MissingMappingDriverImplementation
 	 * @throws Exception
 	 */
 	public function __construct()
@@ -36,9 +33,9 @@ class UpdateController extends Controller
 	 * @throws EntityException
 	 * @throws InternalError
 	 * @throws ORMException
+	 * @throws OptimisticLockException
 	 * @throws ParametersException
 	 * @throws PermissionException
-	 * @throws OptimisticLockException
 	 */
 	public function add(): void
 	{
