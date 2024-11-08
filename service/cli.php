@@ -9,5 +9,5 @@ try {
 	Database::getInstance()->executeCLI();
 } catch (\Doctrine\DBAL\Exception $e) {
 	Tools::log(1, "CLI error: {$e->getMessage()}\n");
-	die(0);
+	die(1);
 }
